@@ -4,19 +4,6 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowRight, BookOpen, Brain, MessageCircle, Sparkles, TrendingUp, Users, Star, CheckCircle, HelpCircle, GraduationCap } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Learn Spoken English in Bangla | Free AI English Tutor",
-  description: "Improve your English speaking skills with our free AI Tutor. Practice daily conversation, reading, and vocabulary in Bengali. Start your journey to fluent spoken English today.",
-  keywords: ["Learn spoken English in Bangla", "Free AI English Tutor", "Improve English speaking for Bengali", "English practice AI", "Bangla to English spoken"],
-  openGraph: {
-    title: "Learn Spoken English in Bangla | English Tutor AI",
-    description: "Practice spoken English effortlessly with AI-generated stories and quizzes in Bengali.",
-    url: "https://english-tutor-ai.vercel.app/",
-  }
-};
-
 export default function LandingPage() {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 1000], [0, 200]);

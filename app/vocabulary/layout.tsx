@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "My English Vocabulary | English Tutor AI",
     description: "Review and memorize the English words you've saved from your reading sessions.",
-    url: "https://english-tutor-ai.vercel.app/vocabulary",
+    url: "https://englishtutor-ai.vercel.app/vocabulary",
   }
 };
 

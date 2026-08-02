@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "English Story Categories | Learn Spoken English",
     description: "Choose a topic you love and start reading English stories tailored for Bengali learners.",
-    url: "https://english-tutor-ai.vercel.app/categories",
+    url: "https://englishtutor-ai.vercel.app/categories",
   }
 };
 

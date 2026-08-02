@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "English Quizzes | English Tutor AI",
     description: "Challenge yourself with interactive quizzes after reading stories.",
-    url: "https://english-tutor-ai.vercel.app/quiz",
+    url: "https://englishtutor-ai.vercel.app/quiz",
   }
 };
 

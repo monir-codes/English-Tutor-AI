@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://english-tutor-ai.vercel.app';
+  const baseUrl = 'https://englishtutor-ai.vercel.app';
 
   return [
     {

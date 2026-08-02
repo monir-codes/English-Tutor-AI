@@ -1,15 +1,14 @@
 "use client";
 
-import { useAuth } from "@/context/AuthContext";
+
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { Loader2, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function GenerateStoryPage() {
+function GenerateStoryContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user, loading } = useAuth();
   
   const category = searchParams.get("category") || "Random";
   const difficulty = searchParams.get("difficulty") || "Beginner";
@@ -17,11 +16,6 @@ export default function GenerateStoryPage() {
   const [status, setStatus] = useState("Initializing AI...");
 
   useEffect(() => {
-    if (loading) return;
-    if (!user) {
-      router.push("/sign-in");
-      return;
-    }
 
     const generate = async () => {
       setStatus("Generating your personalized story...");
@@ -29,7 +23,7 @@ export default function GenerateStoryPage() {
         const res = await fetch("/api/story/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ category, difficulty, firebaseUid: user.uid }),
+          body: JSON.stringify({ category, difficulty }),
         });
         
         if (!res.ok) throw new Error("Failed to generate");
@@ -44,7 +38,7 @@ export default function GenerateStoryPage() {
     };
     
     generate();
-  }, [user, loading, category, difficulty, router]);
+  }, [category, difficulty, router]);
 
   return (
     <div className="flex h-[calc(100vh-100px)] flex-col items-center justify-center p-4">
@@ -61,5 +55,17 @@ export default function GenerateStoryPage() {
         {status}
       </p>
     </div>
+  );
+}
+
+export default function GenerateStoryPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex h-[calc(100vh-100px)] flex-col items-center justify-center p-4">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    }>
+      <GenerateStoryContent />
+    </Suspense>
   );
 }

@@ -18,11 +18,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "English Tutor AI",
     description: "Learn English effortlessly by reading fascinating stories in Bangla.",
-    url: "https://english-tutor-ai.vercel.app",
+    url: "https://englishtutor-ai.vercel.app",
     siteName: "English Tutor AI",
     images: [
       {
-        url: "https://english-tutor-ai.vercel.app/og-image.jpg",
+        url: "https://englishtutor-ai.vercel.app/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "English Tutor AI Premium Experience",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: "English Tutor AI",
     description: "Learn English effortlessly by reading fascinating stories in Bangla.",
     creator: "@monircodes",
-    images: ["https://english-tutor-ai.vercel.app/og-image.jpg"],
+    images: ["https://englishtutor-ai.vercel.app/og-image.jpg"],
   },
   robots: {
     index: true,
