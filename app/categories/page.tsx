@@ -3,6 +3,18 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, Sparkles } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "English Reading Practice with Bengali Translation | Story Categories",
+  description: "Explore diverse English stories with Bengali translations. Practice daily conversations, office English, airport vocabulary, and more to improve fluency naturally.",
+  keywords: ["English reading practice with Bengali translation", "Daily English conversation in Bangla", "Learn English through stories", "Spoken English topics for Bengali"],
+  openGraph: {
+    title: "English Story Categories | Learn Spoken English",
+    description: "Choose a topic you love and start reading English stories tailored for Bengali learners.",
+    url: "https://english-tutor-ai.vercel.app/categories",
+  }
+};
 
 const CATEGORIES = [
   { name: "History", icon: "🏛", diff: "Intermediate", desc: "Discover the past through engaging stories." },
