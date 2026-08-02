@@ -59,6 +59,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className="h-full antialiased">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // This script aggressively removes the 'bis_skin_checked' attribute injected by Avast/AVG 
+              // extensions before React can hydrate, preventing the Next.js hydration crash.
+              const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                  if (mutation.type === 'attributes' && mutation.attributeName === 'bis_skin_checked') {
+                    mutation.target.removeAttribute('bis_skin_checked');
+                  }
+                });
+              });
+              observer.observe(document, { attributes: true, subtree: true, attributeFilter: ['bis_skin_checked'] });
+            `,
+          }}
+        />
+      </head>
       <body suppressHydrationWarning className="flex min-h-[100dvh] flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
         <NextTopLoader 
           color="hsl(var(--primary))" 
