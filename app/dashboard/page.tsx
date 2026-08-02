@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/context/AuthContext";
+
 import { useEffect, useState } from "react";
 import { BookOpen, Flame, Star, Trophy, Activity, ArrowRight, Sparkles, Target } from "lucide-react";
 import Link from "next/link";
@@ -16,7 +16,6 @@ const CATEGORIES = [
 ];
 
 export default function DashboardPage() {
-  const { user, loading: authLoading } = useAuth();
   const [mounted, setMounted] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [tempName, setTempName] = useState("");
@@ -32,12 +31,12 @@ export default function DashboardPage() {
     setRecommended([CATEGORIES[day % CATEGORIES.length], CATEGORIES[(day + 1) % CATEGORIES.length]]);
   }, []);
 
-  if (!mounted || authLoading) {
+  if (!mounted) {
     return <GlobalLoader isLoading={true} message="Loading your dashboard..." />;
   }
 
   // Determine display name without demo fallback
-  const finalName = name || user?.displayName || user?.email?.split('@')[0] || "Learner";
+  const finalName = name || "Learner";
 
   const handleSaveName = () => {
     if (tempName.trim()) {
