@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "sonner";
+import NextTopLoader from 'nextjs-toploader';
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -59,6 +60,18 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="h-full antialiased">
       <body suppressHydrationWarning className="flex min-h-[100dvh] flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+        <NextTopLoader 
+          color="hsl(var(--primary))" 
+          initialPosition={0.08} 
+          crawlSpeed={200} 
+          height={4} 
+          crawl={true} 
+          showSpinner={false} 
+          easing="ease" 
+          speed={200} 
+          shadow="0 0 15px hsl(var(--primary)),0 0 5px hsl(var(--primary))" 
+          zIndex={1600} 
+        />
         <ThemeProvider>
           <AuthProvider>
             <Toaster position="bottom-center" />
