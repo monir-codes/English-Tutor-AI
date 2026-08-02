@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { AuthProvider } from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -91,14 +90,12 @@ export default function RootLayout({
           zIndex={1600} 
         />
         <ThemeProvider>
-          <AuthProvider>
-            <Toaster position="bottom-center" />
-            <Navbar />
-            <main className="flex-1 relative">
-              {children}
-            </main>
-            <Footer />
-          </AuthProvider>
+          <Toaster position="bottom-center" />
+          <Navbar />
+          <main className="flex-1 relative">
+            {children}
+          </main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

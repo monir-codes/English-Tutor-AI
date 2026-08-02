@@ -74,11 +74,11 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: -20, scale: 0.8 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.6, type: "spring", bounce: 0.5 }}
-              className="mb-8 flex items-center justify-center space-x-2 rounded-full border border-primary-200/50 bg-primary-50/50 dark:border-primary-500/20 dark:bg-primary-900/20 backdrop-blur-xl px-6 py-2.5 shadow-sm transition-all hover:bg-primary-50 hover:shadow-md dark:hover:bg-primary-900/40"
+              className="inline-flex items-center space-x-2 rounded-full border border-primary-200 bg-primary-50 px-4 py-1.5 dark:border-primary-900/50 dark:bg-primary-900/20"
             >
-              <Sparkles className="h-4 w-4 text-primary-600 dark:text-primary-400 animate-pulse" />
-              <span className="text-sm font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-700 to-primary-500 dark:from-primary-300 dark:to-primary-100">
-                Revolutionary English Learning
+              <Sparkles className="h-4 w-4 text-primary-600 dark:text-primary-400" />
+              <span className="text-sm font-medium text-primary-800 dark:text-primary-300">
+                100% Free • No Login Required
               </span>
             </motion.div>
 

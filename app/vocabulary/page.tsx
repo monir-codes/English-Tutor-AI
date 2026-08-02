@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Search, Volume2, Loader2 } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
-import { motion } from "framer-motion";
+import { ArrowLeft, BookOpen, Search, Volume2, Loader2, Trash2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useUserStore } from "@/store/userStore";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -19,35 +19,19 @@ export const metadata: Metadata = {
 };
 
 export default function VocabularyPage() {
-  const { user } = useAuth();
-  const [words, setWords] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { vocabulary, removeWord } = useUserStore();
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    const fetchVocab = async () => {
-      if (!user) return;
-      try {
-        const res = await fetch(`/api/vocabulary/${user.uid}`);
-        if (res.ok) {
-          const data = await res.json();
-          setWords(data.vocabulary);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchVocab();
-  }, [user]);
-
-  const filteredWords = words.filter((w) =>
+  const filteredWords = vocabulary.filter((w) =>
     w.english.toLowerCase().includes(searchTerm.toLowerCase()) ||
     w.meaning.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (loading) return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
+  const speak = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-US";
+    window.speechSynthesis.speak(utterance);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
@@ -60,7 +44,7 @@ export default function VocabularyPage() {
           <BookOpen className="h-10 w-10" />
         </div>
         <h1 className="text-4xl font-bold tracking-tight mb-2">My Vocabulary</h1>
-        <p className="text-muted-foreground">Review the words you've encountered in your stories.</p>
+        <p className="text-muted-foreground">Review the words you've saved from your stories offline.</p>
       </div>
 
       <div className="mb-8 relative max-w-md mx-auto">
@@ -85,28 +69,44 @@ export default function VocabularyPage() {
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {filteredWords.map((word, i) => (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.02 }}
-              key={i}
-              className="rounded-2xl border bg-card p-5 shadow-sm hover:border-primary/50 transition-colors flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-bold text-xl text-primary">{word.english}</h3>
-                  <button className="text-muted-foreground hover:text-foreground transition-colors">
-                    <Volume2 className="h-4 w-4" />
-                  </button>
+          <AnimatePresence>
+            {filteredWords.map((word, i) => (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ delay: i * 0.02 }}
+                key={word.english}
+                className="rounded-2xl border bg-card p-5 shadow-sm hover:border-primary/50 transition-colors flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-bold text-xl text-primary">{word.english}</h3>
+                    <div className="flex space-x-1">
+                      <button 
+                        onClick={() => speak(word.english)}
+                        className="text-muted-foreground hover:text-primary transition-colors p-1"
+                        title="Listen to pronunciation"
+                      >
+                        <Volume2 className="h-4 w-4" />
+                      </button>
+                      <button 
+                        onClick={() => removeWord(word.english)}
+                        className="text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-all p-1"
+                        title="Remove word"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground italic mb-3">{word.banglaPronunciation}</p>
                 </div>
-                <p className="text-sm text-muted-foreground italic mb-3">{word.banglaPronunciation}</p>
-              </div>
-              <div className="pt-3 border-t">
-                <p className="font-medium text-sm">{word.meaning}</p>
-              </div>
-            </motion.div>
-          ))}
+                <div className="pt-3 border-t">
+                  <p className="font-medium text-sm">{word.meaning}</p>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       )}
     </div>

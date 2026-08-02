@@ -6,6 +6,12 @@ export interface WeeklyActivity {
   xp: number;
 }
 
+export interface VocabularyWord {
+  english: string;
+  banglaPronunciation: string;
+  meaning: string;
+}
+
 interface UserState {
   name: string;
   xp: number;
@@ -15,12 +21,15 @@ interface UserState {
   weeklyActivity: WeeklyActivity[];
   lastActiveDate: string;
   storiesReadToday: number;
+  vocabulary: VocabularyWord[];
   
   // Actions
   setName: (name: string) => void;
   addXp: (amount: number) => void;
   incrementStreak: () => void;
   completeStory: () => void;
+  addWord: (word: VocabularyWord) => void;
+  removeWord: (english: string) => void;
   resetProgress: () => void;
 }
 
@@ -45,6 +54,7 @@ export const useUserStore = create<UserState>()(
       weeklyActivity: DEFAULT_WEEKLY_ACTIVITY,
       lastActiveDate: new Date().toDateString(),
       storiesReadToday: 0,
+      vocabulary: [],
 
       setName: (name) => set({ name }),
 
@@ -87,6 +97,18 @@ export const useUserStore = create<UserState>()(
           lastActiveDate: today
         };
       }),
+
+      addWord: (word) => set((state) => {
+        // Prevent duplicates
+        if (state.vocabulary.find(w => w.english.toLowerCase() === word.english.toLowerCase())) {
+          return state;
+        }
+        return { vocabulary: [...state.vocabulary, word] };
+      }),
+
+      removeWord: (english) => set((state) => ({
+        vocabulary: state.vocabulary.filter(w => w.english.toLowerCase() !== english.toLowerCase())
+      })),
       
       resetProgress: () => set({ 
         name: '',
@@ -96,6 +118,7 @@ export const useUserStore = create<UserState>()(
         completedStories: 0,
         weeklyActivity: DEFAULT_WEEKLY_ACTIVITY,
         storiesReadToday: 0,
+        vocabulary: [],
         lastActiveDate: new Date().toDateString()
       }),
     }),
